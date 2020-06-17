@@ -1,0 +1,40 @@
+.rewards-categories-table {
+  margin: 30px auto;
+  font-size: 24px;
+}
+
+tr {
+  height: 55px;
+}
+
+td {
+  width: 100px;
+}
+
+.reward-item {
+  border: 1px solid black;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 5px;
+}
+
+.content-row td {
+  position: relative;
+}
+
+.reward-item--empty {
+  border: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.droppable-container {
+  min-height: 50px;;
+}
+
+.content-row td:first-child div {
+  /* cursor: grab; */
+}

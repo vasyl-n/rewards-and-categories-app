@@ -70,6 +70,10 @@ td {
   cursor: pointer;
 }
 
+.save-button {
+  margin-top: 24px;
+}
+
 .content-row td:first-child div {
   /* cursor: grab; */
 }

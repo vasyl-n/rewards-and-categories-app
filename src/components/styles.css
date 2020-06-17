@@ -1,5 +1,13 @@
-.rewards-categories-table {
+.rewards-categories-container {
+  padding: 0 60px;
   margin: 30px auto;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.rewards-categories-table {
   font-size: 22px;
 }
 
@@ -46,6 +54,20 @@ td {
 
 .droppable-container {
   min-height: 50px;;
+}
+
+.rewards-categories-buttons {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.rewards-categories-buttons button {
+  margin: 10px;
+}
+
+.rewards-categories-buttons button:hover {
+  cursor: pointer;
 }
 
 .content-row td:first-child div {

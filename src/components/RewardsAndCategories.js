@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-
-import { Reward } from './Reward';
+import { RewardsAndCategoriesTable } from './RewardsAndCategoriesTable'
 import './styles.css';
 
 const CATEGORIES = ['C1', 'C2', 'C3', 'C4', 'C5'];
@@ -9,67 +8,52 @@ const REWARDS = ['R1', 'R2', 'R3', 'R4', 'R5'];
 export const RewardsAndCategories = () => {
   const initialRewardsData = REWARDS.map(reward => {
     return [{val: reward, isDraggable: true}, ...CATEGORIES.map(cat => ({val: null}))];
-  })
+  });
   const [data, setData] = useState(initialRewardsData);
+  const [history, setHistory] = useState([]);
 
   const handleDelete = ({rowInd, colInd}) => () => {
     const updatedData = JSON.parse(JSON.stringify(data));
+    const updatedHistory = JSON.parse(JSON.stringify(history));
     updatedData[rowInd][colInd] = {val: null};
+    updatedHistory.push(data);
+    setHistory(updatedHistory);
     setData(updatedData);
   }
 
   const handleItemDropped = ({rowInd, colInd}) => (item, draggedFrom) => {
-    console.log(draggedFrom)
     const updatedData = JSON.parse(JSON.stringify(data)); // make a copy of the existing data
+    const updatedHistory = JSON.parse(JSON.stringify(history));
     if (item === updatedData[rowInd][0].val) { // only update items if they are dragged within the same row
       updatedData[rowInd][colInd] = {val: item};
       if (draggedFrom > 0) {
         updatedData[rowInd][draggedFrom] = {val: null};
       }
+      updatedHistory.push(data);
+      setHistory(updatedHistory);
       setData(updatedData);
     }
   }
 
-  const renderDataRows = (data) => {
-    return data.map((row, rowInd) => {
-      return (
-        <tr className="content-row" key={rowInd}>
-          {
-            row.map((reward, colInd) => {
-              return <td key={colInd}>
-                {
-                  <Reward
-                    reward={reward}
-                    handleItemDropped={handleItemDropped({rowInd, colInd})}
-                    handleDelete={handleDelete({rowInd, colInd})}
-                    colInd={colInd}
-                  />
-                }
-              </td>
-            })
-          }
-        </tr>
-      )
-    })
+  const handleUndo = () => {
+    const updatedHistory = JSON.parse(JSON.stringify(history));
+    setData(updatedHistory.pop());
+    setHistory(updatedHistory);
   }
-console.log(data)
+
+  console.log(history)
   return (
-    <table className="rewards-categories-table">
-      <tr className="header-row-1">
-        <th colSpan="1">Rewards</th>
-        <th colSpan={CATEGORIES.length}>Categories</th>
-      </tr>
-      <tr className="header-row-2">
-        <td></td>
-        {
-          CATEGORIES.map(category => {
-            return <th key={category} scope="col">{category}</th>
-          })
-        }
-      </tr>
-      {
-        renderDataRows(data)
-      }
-    </table>
+    <div className="rewards-categories-container">
+      <div className="rewards-categories-buttons">
+        <button disabled={history.length===0} onClick={handleUndo}>Undo</button>
+        <button disabled={false}>Redo</button>
+      </div>
+      <RewardsAndCategoriesTable
+        categories={CATEGORIES}
+        tableData={data}
+        handleDelete={handleDelete}
+        handleItemDropped={handleItemDropped}
+      />
+    </div>
   )
 }

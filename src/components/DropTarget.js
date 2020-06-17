@@ -3,7 +3,6 @@ import React from 'react';
 export const DropTarget = (props) => {
   function dragOver(ev) {
     ev.preventDefault();
-    ev.dataTransfer.dropEffect = props.dropEffect;
   }
   
   function drop(ev) {
@@ -13,6 +12,7 @@ export const DropTarget = (props) => {
       props.onItemDropped(droppedItem, draggedFrom);
     }
   }
+  
   return (
     <div onDragOver={dragOver} onDrop={drop}>
       {props.children}

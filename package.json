@@ -12,13 +12,19 @@
     "recoil": "0.0.8"
   },
   "devDependencies": {
-    "@testing-library/dom": "^7.16.2",
-    "@testing-library/react": "^10.2.1"
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
+    "enzyme-to-json": "^3.5.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest src/App.test.js",
     "eject": "react-scripts eject"
+  },
+  "jest": {
+    "snapshotSerializers": ["enzyme-to-json/serializer"],
+    "collectCoverageFrom": ["src/**/*.js", "!src/index.js"],
+    "coverageReporters": ["text"]
   }
 }

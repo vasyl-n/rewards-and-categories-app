@@ -25,21 +25,23 @@ export const RewardsAndCategoriesTable = ({categories, tableData, handleDelete, 
     })
   }
 
-  return <table className="rewards-categories-table">
-    <tr className="header-row-1">
-      <th colSpan="1">Rewards</th>
-      <th colSpan={categories.length}>Categories</th>
-    </tr>
-    <tr className="header-row-2">
-      <td></td>
+  return(
+    <table className="rewards-categories-table">
+      <tr className="header-row-1">
+        <th colSpan="1">Rewards</th>
+        <th colSpan={categories.length}>Categories</th>
+      </tr>
+      <tr className="header-row-2">
+        <td></td>
+        {
+          categories.map(category => {
+            return <th key={category} scope="col">{category}</th>
+          })
+        }
+      </tr>
       {
-        categories.map(category => {
-          return <th key={category} scope="col">{category}</th>
-        })
+        renderDataRows(tableData)
       }
-    </tr>
-    {
-      renderDataRows(tableData)
-    }
-  </table>
+    </table>
+  )
 }

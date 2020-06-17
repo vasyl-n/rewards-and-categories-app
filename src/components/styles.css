@@ -1,6 +1,6 @@
 .rewards-categories-table {
   margin: 30px auto;
-  font-size: 24px;
+  font-size: 22px;
 }
 
 tr {
@@ -15,7 +15,8 @@ td {
   border: 1px solid black;
   width: fit-content;
   margin: 0 auto;
-  padding: 5px;
+  padding: 8px;
+  position: relative;
 }
 
 .content-row td {
@@ -29,6 +30,18 @@ td {
   bottom: 0;
   left: 0;
   right: 0;
+}
+
+.reward-item--empty .reward-delete-button {
+  display: none;
+}
+
+.reward-delete-button {
+  position: absolute;
+  top: 0;
+  font-size: 11px;
+  right: 2px;
+  cursor: pointer;
 }
 
 .droppable-container {

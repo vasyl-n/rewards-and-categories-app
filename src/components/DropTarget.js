@@ -6,14 +6,11 @@ export const DropTarget = (props) => {
     ev.dataTransfer.dropEffect = props.dropEffect;
   }
   
-  function dragEnter(ev) {
-    ev.dataTransfer.dropEffect = props.dropEffect;
-  }
-
   function drop(ev) {
     const droppedItem = ev.dataTransfer.getData("drag-item");
+    const draggedFrom = ev.dataTransfer.getData("dragged-from");
     if (droppedItem) {
-      props.onItemDropped(droppedItem);
+      props.onItemDropped(droppedItem, draggedFrom);
     }
   }
   return (

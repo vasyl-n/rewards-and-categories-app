@@ -52,7 +52,6 @@ export const RewardsAndCategories = () => {
     const updatedRedoHistory = JSON.parse(JSON.stringify(store.redoHistory));
     const redoChange = updatedRedoHistory.pop();
     store.setRedoHistory(updatedRedoHistory);
-    
     const updatedHistory = JSON.parse(JSON.stringify(store.undoHistory));
     updatedHistory.push(store.data);
     store.setUndoHistory(updatedHistory);

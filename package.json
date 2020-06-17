@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "jest": "^26.0.1",
     "mobx": "^5.15.4",
     "mobx-react": "^6.2.2",
     "react": "^16.13.1",
@@ -10,11 +11,14 @@
     "react-scripts": "0.9.x",
     "recoil": "0.0.8"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@testing-library/dom": "^7.16.2",
+    "@testing-library/react": "^10.2.1"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "jest src/App.test.js",
     "eject": "react-scripts eject"
   }
 }

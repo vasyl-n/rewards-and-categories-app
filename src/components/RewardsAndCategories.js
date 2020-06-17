@@ -10,43 +10,60 @@ export const RewardsAndCategories = () => {
     return [{val: reward, isDraggable: true}, ...CATEGORIES.map(cat => ({val: null}))];
   });
   const [data, setData] = useState(initialRewardsData);
-  const [history, setHistory] = useState([]);
+  const [undoHistory, setUndoHistory] = useState([]);
+  const [redoHistory, setRedoHistory] = useState([]);
 
   const handleDelete = ({rowInd, colInd}) => () => {
     const updatedData = JSON.parse(JSON.stringify(data));
-    const updatedHistory = JSON.parse(JSON.stringify(history));
+    const updatedHistory = JSON.parse(JSON.stringify(undoHistory));
     updatedData[rowInd][colInd] = {val: null};
     updatedHistory.push(data);
-    setHistory(updatedHistory);
+    setUndoHistory(updatedHistory);
     setData(updatedData);
   }
 
   const handleItemDropped = ({rowInd, colInd}) => (item, draggedFrom) => {
     const updatedData = JSON.parse(JSON.stringify(data)); // make a copy of the existing data
-    const updatedHistory = JSON.parse(JSON.stringify(history));
+    const updatedHistory = JSON.parse(JSON.stringify(undoHistory));
     if (item === updatedData[rowInd][0].val) { // only update items if they are dragged within the same row
       updatedData[rowInd][colInd] = {val: item};
       if (draggedFrom > 0) {
         updatedData[rowInd][draggedFrom] = {val: null};
       }
       updatedHistory.push(data);
-      setHistory(updatedHistory);
+      setUndoHistory(updatedHistory);
+      setRedoHistory([]);
       setData(updatedData);
     }
   }
 
   const handleUndo = () => {
-    const updatedHistory = JSON.parse(JSON.stringify(history));
-    setData(updatedHistory.pop());
-    setHistory(updatedHistory);
+    const updatedUndoHistory = JSON.parse(JSON.stringify(undoHistory));
+    const undoneChange = updatedUndoHistory.pop();
+    setUndoHistory(updatedUndoHistory);
+    setData(undoneChange);
+
+    const updatedRedoHistory = JSON.parse(JSON.stringify(redoHistory));
+    updatedRedoHistory.push(data);
+    setRedoHistory(updatedRedoHistory);
   }
 
-  console.log(history)
+  const handleRedo = () => {
+    const updatedURedoHistory = JSON.parse(JSON.stringify(redoHistory));
+    const redoChange = updatedURedoHistory.pop();
+    setData(redoChange);
+    setRedoHistory(updatedURedoHistory);
+
+    const updatedHistory = JSON.parse(JSON.stringify(undoHistory));
+    updatedHistory.push(data);
+    setUndoHistory(updatedHistory);
+  }
+
   return (
     <div className="rewards-categories-container">
       <div className="rewards-categories-buttons">
-        <button disabled={history.length===0} onClick={handleUndo}>Undo</button>
-        <button disabled={false}>Redo</button>
+        <button disabled={undoHistory.length===0} onClick={handleUndo}>Undo</button>
+        <button disabled={redoHistory.length===0} onClick={handleRedo}>Redo</button>
       </div>
       <RewardsAndCategoriesTable
         categories={CATEGORIES}
